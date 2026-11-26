@@ -1,12 +1,8 @@
-from asyncio import graph
-
+import math
 from Graph_Theory import printname
-
 
 #printname('D:/')
 
-
-import math
 #This is an adjacency list, which represents the nodes that each point can connect to, along with the associated weights.
 graph = {
     'start': {'a': 5, 'b': 2},
@@ -28,11 +24,7 @@ costs = {
 }
 
 parents={}
-parents['a']='start'
-parents['b']='start'
-parents['c']=None
-parents['d']=None
-parents['end']=None
+
 
 processed=set()
 
