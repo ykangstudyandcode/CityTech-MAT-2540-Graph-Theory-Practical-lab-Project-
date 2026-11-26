@@ -2,49 +2,30 @@ from asyncio import graph
 
 from Graph_Theory import printname
 
-import math
+
 #printname('D:/')
 
+
+import math
 #This is an adjacency list, which represents the nodes that each point can connect to, along with the associated weights.
-graph={}
-graph['start']={}
-graph['start']['a'] =5
-graph['start']['b'] = 2
+graph = {
+    'start': {'a': 5, 'b': 2},
+    'a': {'start': 5, 'c': 2, 'd': 6},
+    'b': {'start': 2, 'c': 4},
+    'c': {'a': 2, 'd': 1, 'b': 4, 'end': 10},
+    'd': {'a': 6, 'c': 1, 'end': 3},
+    'end': {'d': 3, 'c': 10}
+}
 
-graph['a']={}
-graph['a']['start'] = 5
-graph['a']['c']=2
-graph['a']['d']=6
-
-graph['b']={}
-graph['b']['start'] = 2
-graph['b']['c']=4
-
-graph['c']={}
-graph['c']['a']=2
-graph['c']['d']=1
-graph['c']['b']=4
-graph['c']['end']=10
-
-graph['d']={}
-graph['d']['a']=6
-graph['d']['c']=1
-graph['d']['end']=3
-
-graph['end']={}
-graph['end']['d']=3
-graph['end']['c']=10
-
-
-
-costs={}
-costs['start']=0
-costs['a']=5
-costs['b']=2
-costs['c']=math.inf
-costs['d']=math.inf
-costs['end']=math.inf
-
+# Initialize the weights for each node from start to end.
+costs = {
+    'start': 0,
+    'a': math.inf,
+    'b': math.inf,
+    'c': math.inf,
+    'd': math.inf,
+    'end': math.inf
+}
 
 parents={}
 parents['a']='start'
@@ -68,15 +49,22 @@ def find_shortest_path(costs):
 node=find_shortest_path(costs)
 while node is not None:
     cost=costs[node]
-    #A hash map recording the nodes adjacent to this node at the current moment
     neighbors=graph[node]
-    #Iterate through the key-value pairs of this hash map; `n` will point to the key-value of each current node.
-    print(f"\nCurrent node: {node}, total cost: {cost}")
     for n in neighbors.keys():
-        print(f"Checking: {node} -> {n}")
         new_cost = cost + neighbors[n]
         if new_cost < costs[n]:
             costs[n] = new_cost
             parents[n] = node
     processed.add(node)
     node = find_shortest_path(costs)
+
+print(costs)
+
+path = ['end']
+node = 'end'
+while node != 'start':
+    node = parents[node]
+    path.append(node)
+
+path.reverse()
+print(path)
